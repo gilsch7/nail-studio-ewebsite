@@ -1,43 +1,1063 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>סטודיו ציפורניים - ורד 14, קרית מוצקין</title>
+    <style>
+        :root {
+            --pink: #ec4899;
+            --pink-light: #fce7f3;
+            --pink-dark: #be185d;
+            --rose: #f43f5e;
+            --rose-light: #fef2f2;
+            --rose-dark: #be123c;
+        }
 
-on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            color: #212529;
+            line-height: 1.6;
+        }
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+        .header {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            border-bottom: 2px solid var(--pink-light);
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.1);
+        }
 
-jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        .nail-icon {
+            font-size: 4rem;
+            background: linear-gradient(45deg, var(--pink), var(--rose));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(236, 72, 153, 0.3));
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--rose-dark);
+        }
+
+        .header p {
+            color: var(--rose-dark);
+            margin: 0.5rem 0;
+        }
+
+        .business-info {
+            color: var(--rose-dark);
+            font-size: 0.9rem;
+        }
+
+        .nav {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            border-bottom: 1px solid var(--pink-light);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--rose-dark);
+            cursor: pointer;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .nav-btn:hover {
+            color: var(--pink);
+            background-color: var(--pink-light);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--pink), var(--rose));
+            color: white;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .content {
+            padding: 2rem 0;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--rose-dark);
+            text-align: center;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--pink), transparent);
+        }
+
+        .section-subtitle {
+            color: var(--rose-dark);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .service-card:hover {
+            border-color: var(--pink-light);
+        }
+
+        .service-card.selected {
+            border-color: var(--pink);
+            background: linear-gradient(135deg, #ffffff 0%, var(--pink-light) 100%);
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .service-price {
+            font-weight: 600;
+            color: var(--rose-dark);
+            text-shadow: 0 1px 2px rgba(236, 72, 153, 0.1);
+        }
+
+        .checkbox {
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid #dee2e6;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .checkbox.checked {
+            background: linear-gradient(135deg, var(--pink), var(--rose));
+            border-color: var(--pink);
+            color: white;
+            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
+        }
+
+        .summary {
+            background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+            border: 2px solid var(--pink-light);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 16px rgba(236, 72, 153, 0.1);
+        }
+
+        .summary-title {
+            font-weight: 600;
+            color: var(--rose-dark);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--pink-light);
+            padding-bottom: 0.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #6c757d;
+        }
+
+        .summary-total {
+            border-top: 2px solid var(--pink-light);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--rose-dark);
+            background: linear-gradient(135deg, transparent 0%, var(--pink-light) 100%);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem -0.5rem 0 -0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: var(--rose-dark);
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #dee2e6;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--pink-dark), var(--rose-dark));
+            color: #000000;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+            border: none;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #9d174d, #9f1239);
+            box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+            transform: translateY(-1px);
+            color: #000000;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+
+        .appointment-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .appointment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .appointment-date {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--rose-dark);
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .appointment-total {
+            font-weight: 600;
+            color: var(--rose-dark);
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: linear-gradient(135deg, transparent 0%, var(--pink-light) 100%);
+            border-radius: 0.25rem;
+            border-left: 3px solid var(--pink);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .gallery-item:hover {
+            box-shadow: 0 8px 24px rgba(236, 72, 153, 0.2);
+            border-color: var(--pink-light);
+            transform: translateY(-2px);
+        }
+
+        .gallery-placeholder {
+            height: 150px;
+            background: linear-gradient(135deg, var(--pink-light) 0%, var(--rose-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .gallery-info {
+            padding: 1rem;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            border-top: 1px solid var(--pink-light);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-text {
+            color: var(--rose-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-subtext {
+            color: var(--pink-dark);
+            font-size: 0.875rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6c757d;
+        }
+
+        .back-btn {
+            color: var(--rose-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .back-btn:hover {
+            color: var(--pink);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            background: linear-gradient(135deg, var(--pink), var(--rose));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+            margin-left: 1rem;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+
+        .file-label:hover {
+            background: linear-gradient(135deg, var(--rose), var(--pink-dark));
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .nav-container {
+                gap: 0.5rem;
+            }
+            
+            .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .appointment-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .booking-container {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+        }
+
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="nail-icon">💅</div>
+            <h1>סטודיו ציפורניים</h1>
+            <p>ברוכים הבאים לסטודיו שלנו</p>
+            <div class="business-info">
+                <p>📍 ורד 14, קרית מוצקין</p>
+                <p>⏰ ימים א'-ה': 9:00-18:00, ו': 9:00-14:00</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-container">
+                <button class="nav-btn active" onclick="showSection('services')">
+                    <span>🛍️</span>
+                    הזמנת תור
+                </button>
+                <button class="nav-btn" onclick="showSection('appointments')">
+                    <span>📅</span>
+                    התורים שלי
+                </button>
+                <button class="nav-btn" onclick="showSection('gallery')">
+                    <span>🖼️</span>
+                    גלריה
+                </button>
+                <button class="nav-btn" onclick="showSection('admin')">
+                    <span>👑</span>
+                    מנהלת
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <div class="container">
+            <section id="services" class="section active">
+                <h2 class="section-title">בחירת טיפולים</h2>
+                <p class="section-subtitle">בחרי את הטיפולים הרצויים</p>
+                
+                <div class="services-grid" id="services-grid">
+                </div>
+
+                <div class="summary" id="services-summary" style="display: none;">
+                    <h3 class="summary-title">סיכום הזמנה</h3>
+                    <div id="summary-items"></div>
+                    <div class="summary-total">
+                        <span>סה"כ לתשלום:</span>
+                        <span id="total-price">₪0</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="showSection('booking')" style="width: 100%; margin-top: 1rem;">
+                        המשך להזמנה
+                    </button>
+                </div>
+            </section>
+
+            <section id="booking" class="section">
+                <a href="#" class="back-btn" onclick="showSection('services')">
+                    ← חזרה לבחירת טיפולים
+                </a>
+                
+                <h2 class="section-title">פרטי הזמנה</h2>
+                <p class="section-subtitle">מלאי את הפרטים להשלמת ההזמנה</p>
+
+                <div class="booking-container">
+                    <div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>👤</span>
+                                שם מלא
+                            </label>
+                            <input type="text" class="form-input" id="customer-name" placeholder="הכניסי את שמך המלא">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>📱</span>
+                                מספר טלפון
+                            </label>
+                            <input type="tel" class="form-input" id="customer-phone" placeholder="050-123-4567">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>📅</span>
+                                תאריך רצוי
+                            </label>
+                            <input type="date" class="form-input" id="appointment-date">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>⏰</span>
+                                שעה רצויה
+                            </label>
+                            <select class="form-input" id="appointment-time">
+                                <option value="">בחרי שעה</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>💬</span>
+                                הערות (אופציונלי)
+                            </label>
+                            <textarea class="form-input" id="customer-notes" rows="3" placeholder="הערות מיוחדות או בקשות"></textarea>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="submitBooking()" style="width: 100%;">
+                            שלח הזמנה לוואטסאפ
+                        </button>
+                    </div>
+
+                    <div class="summary">
+                        <h3 class="summary-title">סיכום ההזמנה</h3>
+                        <div id="booking-summary-items"></div>
+                        <div class="summary-total">
+                            <span>סה"כ לתשלום:</span>
+                            <span id="booking-total-price">₪0</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="appointments" class="section">
+                <h2 class="section-title">התורים שלי</h2>
+                <p class="section-subtitle">כאן תוכלי לראות את כל התורים שקבעת</p>
+                
+                <div id="appointments-list">
+                </div>
+            </section>
+
+            <section id="gallery" class="section">
+                <h2 class="section-title">גלריית עבודות</h2>
+                <p class="section-subtitle">הציפורניים היפות שלנו</p>
+                
+                <div class="gallery-grid" id="gallery-grid">
+                </div>
+            </section>
+
+            <section id="admin" class="section">
+                <h2 class="section-title">מצב מנהלת</h2>
+                <p class="section-subtitle">ניהול האתר והתורים</p>
+                
+                <div id="admin-content">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span>🔐</span>
+                            סיסמת מנהלת
+                        </label>
+                        <input type="password" class="form-input" id="admin-password" placeholder="הכניסי סיסמה">
+                        <button class="btn btn-primary" onclick="adminLogin()" style="margin-top: 1rem;">
+                            התחברות
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">💅 סטודיו ציפורניים - ורד 14, קרית מוצקין</p>
+            <p class="footer-subtext">נוצר עם ❤️ עבור יופי וטיפוח</p>
+        </div>
+    </footer>
+
+    <script>
+        // ⚠️ הכנס כאן את מספר הטלפון שלך במקום XXXXXXXXX
+        const ADMIN_PASSWORD = 'admin123';
+        const PHONE_NUMBER = '972544763686'; 
+
+        let services = [
+            { id: 1, name: 'מניקור רגיל', price: 80, description: 'מניקור בסיסי עם לק רגיל' },
+            { id: 2, name: 'מניקור ג\'ל', price: 120, description: 'מניקור עם לק ג\'ל עמיד' },
+            { id: 3, name: 'פדיקור רגיל', price: 100, description: 'פדיקור בסיסי עם לק רגיל' },
+            { id: 4, name: 'פדיקור ג\'ל', price: 140, description: 'פדיקור עם לק ג\'ל עמיד' },
+            { id: 5, name: 'הדבקת ציפורניים', price: 200, description: 'הדבקת ציפורניים מלאכותיות' },
+            { id: 6, name: 'מילוי', price: 120, description: 'מילוי ציפורניים קיימות' },
+            { id: 7, name: 'העלמת ג\'ל', price: 50, description: 'הסרת לק ג\'ל בצורה בטוחה' },
+            { id: 8, name: 'טיפול פרפין', price: 60, description: 'טיפול מפנק לידיים או רגליים' }
+        ];
+
+        let appointments = JSON.parse(localStorage.getItem('nailStudioAppointments') || '[]');
+        let selectedServices = [];
+        let galleryImages = JSON.parse(localStorage.getItem('nailStudioGallery') || '[]');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointment-date').setAttribute('min', today);
+            
+            renderServices();
+            renderAppointments();
+            renderGallery();
+            updateSummary();
+        });
+
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionName).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.onclick.toString().includes(sectionName)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            if (sectionName === 'booking') {
+                updateBookingSummary();
+            }
+        }
+
+        function renderServices() {
+            const grid = document.getElementById('services-grid');
+            grid.innerHTML = services.map(service => `
+                <div class="service-card ${selectedServices.includes(service.id) ? 'selected' : ''}" 
+                     onclick="toggleService(${service.id})">
+                    <div class="service-header">
+                        <h3>${service.name}</h3>
+                        <div class="checkbox ${selectedServices.includes(service.id) ? 'checked' : ''}">
+                            ${selectedServices.includes(service.id) ? '✓' : ''}
+                        </div>
+                    </div>
+                    <p>${service.description}</p>
+                    <div class="service-price">₪${service.price}</div>
+                </div>
+            `).join('');
+        }
+
+        function toggleService(serviceId) {
+            if (selectedServices.includes(serviceId)) {
+                selectedServices = selectedServices.filter(id => id !== serviceId);
+            } else {
+                selectedServices.push(serviceId);
+            }
+            renderServices();
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const summary = document.getElementById('services-summary');
+            const summaryItems = document.getElementById('summary-items');
+            const totalPrice = document.getElementById('total-price');
+            
+            if (selectedServices.length === 0) {
+                summary.style.display = 'none';
+                return;
+            }
+            
+            summary.style.display = 'block';
+            
+            const selectedServiceData = selectedServices.map(id => 
+                services.find(s => s.id === id)
+            );
+            
+            summaryItems.innerHTML = selectedServiceData.map(service => `
+                <div class="summary-item">
+                    <span>${service.name}</span>
+                    <span>₪${service.price}</span>
+                </div>
+            `).join('');
+            
+            const total = selectedServiceData.reduce((sum, service) => sum + service.price, 0);
+            totalPrice.textContent = `₪${total}`;
+        }
+
+        function updateBookingSummary() {
+            const summaryItems = document.getElementById('booking-summary-items');
+            const totalPrice = document.getElementById('booking-total-price');
+            
+            const selectedServiceData = selectedServices.map(id => 
+                services.find(s => s.id === id)
+            );
+            
+            summaryItems.innerHTML = selectedServiceData.map(service => `
+                <div class="summary-item">
+                    <span>${service.name}</span>
+                    <span>₪${service.price}</span>
+                </div>
+            `).join('');
+            
+            const total = selectedServiceData.reduce((sum, service) => sum + service.price, 0);
+            totalPrice.textContent = `₪${total}`;
+        }
+
+        function submitBooking() {
+            const name = document.getElementById('customer-name').value;
+            const phone = document.getElementById('customer-phone').value;
+            const date = document.getElementById('appointment-date').value;
+            const time = document.getElementById('appointment-time').value;
+            const notes = document.getElementById('customer-notes').value;
+            
+            if (!name || !phone || !date || !time || selectedServices.length === 0) {
+                alert('אנא מלא את כל השדות הנדרשים');
+                return;
+            }
+            
+            if (PHONE_NUMBER === '972XXXXXXXXX' || PHONE_NUMBER.includes('X')) {
+                alert('שגיאה: מספר הטלפון של העסק לא הוגדר. אנא פנה למנהל האתר.');
+                return;
+            }
+            
+            const appointment = {
+                id: Date.now(),
+                name,
+                phone,
+                date,
+                time,
+                notes,
+                services: selectedServices.map(id => services.find(s => s.id === id)),
+                total: selectedServices.reduce((sum, id) => sum + services.find(s => s.id === id).price, 0),
+                created: new Date()
+            };
+            
+            appointments.push(appointment);
+            saveData();
+            
+            const servicesList = appointment.services.map(s => s.name).join(', ');
+            const message = `הזמנת תור חדשה:
+
+לקוח: ${name}
+טלפון: ${phone}
+תאריך: ${new Date(date).toLocaleDateString('he-IL')}
+שעה: ${time}
+טיפולים: ${servicesList}
+מחיר כולל: ₪${appointment.total}
+הערות: ${notes || 'אין הערות'}
+
+כתובת: ורד 14, קרית מוצקין`;
+            
+            try {
+                const whatsappUrl = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+                
+                selectedServices = [];
+                document.getElementById('customer-name').value = '';
+                document.getElementById('customer-phone').value = '';
+                document.getElementById('appointment-date').value = '';
+                document.getElementById('appointment-time').value = '';
+                document.getElementById('customer-notes').value = '';
+                
+                renderServices();
+                renderAppointments();
+                showSection('appointments');
+                
+                alert('התור נשמר! הודעת וואטסאפ נשלחה לסטודיו 🎉');
+            } catch (error) {
+                alert('שגיאה בשליחת הודעת וואטסאפ. אנא נסה שוב או פנה ישירות בטלפון.');
+                console.error('WhatsApp error:', error);
+            }
+        }
+
+        function renderAppointments() {
+            const list = document.getElementById('appointments-list');
+            
+            if (appointments.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <p>אין תורים קיימים</p>
+                        <button class="btn btn-primary" onclick="showSection('services')" 
+                                style="margin-top: 1rem;">
+                            הזמיני תור חדש
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            list.innerHTML = appointments.map(appointment => `
+                <div class="appointment-card">
+                    <div class="appointment-header">
+                        <div class="appointment-date">
+                            ${new Date(appointment.date).toLocaleDateString('he-IL')} בשעה ${appointment.time}
+                        </div>
+                        <div class="appointment-actions">
+                            <button class="btn btn-secondary" onclick="cancelAppointment(${appointment.id})">
+                                ביטול
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>שם:</strong> ${appointment.name}<br>
+                        <strong>טלפון:</strong> ${appointment.phone}<br>
+                        <strong>טיפולים:</strong> ${appointment.services.map(s => s.name).join(', ')}<br>
+                        ${appointment.notes ? `<strong>הערות:</strong> ${appointment.notes}<br>` : ''}
+                    </div>
+                    <div class="appointment-total">
+                        סה"כ: ₪${appointment.total}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function cancelAppointment(appointmentId) {
+            if (confirm('האם את בטוחה שרוצה לבטל את התור?')) {
+                appointments = appointments.filter(a => a.id !== appointmentId);
+                saveData();
+                renderAppointments();
+                alert('התור בוטל בהצלחה');
+            }
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            
+            if (galleryImages.length === 0) {
+                grid.innerHTML = `
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">💅</div>
+                        <div class="gallery-info">
+                            <h4>דוגמה 1</h4>
+                            <p>מניקור ג'ל עם עיטורים</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">💅</div>
+                        <div class="gallery-info">
+                            <h4>דוגמה 2</h4>
+                            <p>פדיקור קלאסי</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">💅</div>
+                        <div class="gallery-info">
+                            <h4>דוגמה 3</h4>
+                            <p>ציפורניים מלאכותיות</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">💅</div>
+                        <div class="gallery-info">
+                            <h4>דוגמה 4</h4>
+                            <p>עיצוב מיוחד לחג</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = galleryImages.map((image, index) => `
+                <div class="gallery-item">
+                    <img src="${image.url}" alt="${image.title}" style="width: 100%; height: 150px; object-fit: cover;">
+                    <div class="gallery-info">
+                        <h4>${image.title}</h4>
+                        <p>${image.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function adminLogin() {
+            const password = document.getElementById('admin-password').value;
+            if (password === ADMIN_PASSWORD) {
+                showAdminPanel();
+            } else {
+                alert('סיסמה שגויה');
+            }
+        }
+
+        function showAdminPanel() {
+            const adminContent = document.getElementById('admin-content');
+            adminContent.innerHTML = `
+                <div class="form-group">
+                    <h3>ניהול תורים (${appointments.length} תורים)</h3>
+                    <div id="admin-appointments">
+                        ${appointments.length === 0 ? '<p>אין תורים להצגה</p>' : appointments.map(appointment => `
+                            <div class="appointment-card">
+                                <div class="appointment-header">
+                                    <div class="appointment-date">
+                                        ${new Date(appointment.date).toLocaleDateString('he-IL')} בשעה ${appointment.time}
+                                    </div>
+                                    <button class="btn btn-secondary" onclick="deleteAppointment(${appointment.id})">
+                                        מחק
+                                    </button>
+                                </div>
+                                <div>
+                                    <strong>שם:</strong> ${appointment.name}<br>
+                                    <strong>טלפון:</strong> ${appointment.phone}<br>
+                                    <strong>טיפולים:</strong> ${appointment.services.map(s => s.name).join(', ')}<br>
+                                    ${appointment.notes ? `<strong>הערות:</strong> ${appointment.notes}<br>` : ''}
+                                </div>
+                                <div class="appointment-total">
+                                    סה"כ: ₪${appointment.total}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <h3>ניהול גלריה</h3>
+                    <input type="file" id="gallery-upload" class="file-input" accept="image/*" onchange="uploadImage()">
+                    <label for="gallery-upload" class="file-label">העלה תמונה</label>
+                    
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <input type="text" class="form-input" id="image-title" placeholder="כותרת התמונה">
+                        <input type="text" class="form-input" id="image-description" placeholder="תיאור התמונה" style="margin-top: 0.5rem;">
+                    </div>
+                    
+                    ${galleryImages.length > 0 ? `
+                        <div style="margin-top: 2rem;">
+                            <h4>תמונות קיימות:</h4>
+                            ${galleryImages.map((image, index) => `
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin: 0.5rem 0; padding: 0.5rem; border: 1px solid #ddd; border-radius: 0.25rem;">
+                                    <span>${image.title}</span>
+                                    <button class="btn btn-secondary" onclick="deleteImage(${index})" style="padding: 0.25rem 0.5rem; font-size: 0.875rem;">מחק</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function deleteAppointment(appointmentId) {
+            if (confirm('האם אתה בטוח שרוצה למחוק את התור?')) {
+                appointments = appointments.filter(a => a.id !== appointmentId);
+                saveData();
+                showAdminPanel();
+                alert('התור נמחק בהצלחה');
+            }
+        }
+
+        function uploadImage() {
+            const fileInput = document.getElementById('gallery-upload');
+            const titleInput = document.getElementById('image-title');
+            const descriptionInput = document.getElementById('image-description');
+            
+            if (fileInput.files[0] && titleInput.value && descriptionInput.value) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const newImage = {
+                        id: Date.now(),
+                        url: e.target.result,
+                        title: titleInput.value,
+                        description: descriptionInput.value
+                    };
+                    
+                    galleryImages.push(newImage);
+                    saveData();
+                    renderGallery();
+                    showAdminPanel();
+                    
+                    fileInput.value = '';
+                    titleInput.value = '';
+                    descriptionInput.value = '';
+                    
+                    alert('התמונה הועלתה בהצלחה');
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                alert('אנא מלא את כל השדות ובחר תמונה');
+            }
+        }
+
+        function deleteImage(index) {
+            if (confirm('האם אתה בטוח שרוצה למחוק את התמונה?')) {
+                galleryImages.splice(index, 1);
+                saveData();
+                renderGallery();
+                showAdminPanel();
+                alert('התמונה נמחקה בהצלחה');
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('nailStudioAppointments', JSON.stringify(appointments));
+            localStorage.setItem('nailStudioGallery', JSON.stringify(galleryImages));
+        }
+    </script>
+</body>
+</html>
