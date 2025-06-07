@@ -652,7 +652,7 @@
     <script>
         // ⚠️ הכנס כאן את מספר הטלפון שלך במקום XXXXXXXXX
         const ADMIN_PASSWORD = 'admin123';
-        const PHONE_NUMBER = '972544763686'; 
+        const PHONE_NUMBER = '972544763686';
 
         let services = [
             { id: 1, name: 'מניקור רגיל', price: 80, description: 'מניקור בסיסי עם לק רגיל' },
